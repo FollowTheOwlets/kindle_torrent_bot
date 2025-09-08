@@ -1,7 +1,6 @@
 import nodemailer from 'nodemailer';
 import * as path from 'node:path';
-import * as fs from 'node:fs';
-import { listFilesRecursive, chunkBySize } from './fileService.js';
+import {chunkBySize, listFilesRecursive} from './fileService.js';
 
 export type MailConfig = {
     host: string; port: number; secure: boolean;
@@ -11,7 +10,7 @@ export type MailConfig = {
 export function createTransporter(cfg: MailConfig) {
     return nodemailer.createTransport({
         host: cfg.host, port: cfg.port, secure: cfg.secure,
-        auth: { user: cfg.user, pass: cfg.pass },
+        auth: {user: cfg.user, pass: cfg.pass},
     });
 }
 
@@ -31,7 +30,7 @@ export async function sendTorrentFiles(
 ): Promise<{ partsSent: number; totalFiles: number }> {
     const transporter = createTransporter(cfg);
 
-    const files = await listFilesRecursive(params.rootDir);
+    const files = (await listFilesRecursive(params.rootDir)).filter(e => e.relPath.endsWith('.epub'));
     if (files.length === 0) {
         // Можно отправить только .torrent, но логичнее предупредить
         throw new Error('Папка пуста: нечего отправлять.');
@@ -48,7 +47,7 @@ export async function sendTorrentFiles(
             path: f.absPath,
         }));
 
-        const subjectBase = `Torrent delivery: ${params.torrentName}`;
+        const subjectBase = `Bot delivery: ${params.torrentName}`;
         const subject = total > 1 ? `${subjectBase} (Part ${part}/${total})` : subjectBase;
 
         const textLines = [
@@ -65,5 +64,5 @@ export async function sendTorrentFiles(
         });
     }
 
-    return { partsSent: batches.length, totalFiles: files.length };
+    return {partsSent: batches.length, totalFiles: files.length};
 }

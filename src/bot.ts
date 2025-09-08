@@ -50,6 +50,9 @@ export function createBot() {
 
             const {downloadDir: dir, torrentName, filesCount} = await torrentSvc.downloadFromBuffer(torrentBuf, {
                 timeoutMs: config.limits.downloadTimeoutMs,
+                select: {
+                    filter: (rel) => rel.endsWith('.epub')
+                },
                 onProgress: (p) => progressReply(p),
             });
 
