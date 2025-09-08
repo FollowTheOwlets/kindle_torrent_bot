@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
-    "build": "tsc -p ."
+    "build": "npm i && tsc -p ."
   },
   "dependencies": {
     "archiver": "^7.0.1",
@@ -21,6 +21,7 @@
     "@types/archiver": "^6.0.3",
     "@types/node": "^22.7.4",
     "@types/nodemailer": "^7.0.1",
+    "@types/webtorrent": "^0.110.1",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
