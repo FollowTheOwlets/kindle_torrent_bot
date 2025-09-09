@@ -4,6 +4,7 @@ import {TorrentSeenRepo} from './repo/TorrentSeenRepo.js';
 import {MailService} from './services/MailService.js';
 import {TorrentService} from './services/TorrentService.js';
 import {BotStarter} from './bot/BotStarter.js';
+import express from 'express';
 
 /**
  * Точка входа приложения: собирает зависимости, запускает бота и настраивает graceful shutdown.
@@ -37,9 +38,11 @@ async function main() {
 
     const app = new BotStarter(cfg.botToken, users, seen, mail, torrent, logger);
     app.attachObservers();
-    await app.launch();
 
     logger.info('Bot started');
+    express().listen(3000, () => logger.info('Express started'));
+
+    await app.launch();
     process.once('SIGINT', () => {
         logger.warn('SIGINT');
         app.stop('SIGINT');
