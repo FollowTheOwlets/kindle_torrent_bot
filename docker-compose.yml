@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  tg-torrent-bot:
+    build: .
+    image: tg-torrent-bot:latest
+    environment:
+      # Лучше хранить секреты в .env (compose сам подхватит), здесь только примеры ключей:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURE=${SMTP_SECURE}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - MAIL_FROM=${MAIL_FROM}
+      - MAX_EMAIL_BYTES=${MAX_EMAIL_BYTES:-20000000}
+      - DOWNLOAD_TIMEOUT_MIN=${DOWNLOAD_TIMEOUT_MIN:-10}
+      - EMAIL_B64_OVERHEAD=${EMAIL_B64_OVERHEAD:-1.33}
+      # Снимаем таймаут обработчиков у Telegraf (см. index.ts, либо используйте опцию при создании бота)
+      - TELEGRAF_HANDLER_TIMEOUT=Infinity
+    ports:
+      - "6881:6881/tcp"
+      - "6881:6881/udp"
+    # Увеличим лимиты файловых дескрипторов (много коннекций)
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    # tmp-promise пишет в /tmp — вынесем в tmpfs ради скорости (опционально)
+    tmpfs:
+      - /tmp
+    restart: unless-stopped

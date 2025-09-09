@@ -4,7 +4,7 @@ import { MailService } from '../services/MailService.js';
 import { MessageUpdater } from '../utils/MessageUpdater.js';
 import path from 'node:path';
 import axios from 'axios';
-import {cfg} from "../config/Config";
+import {cfg} from "../config/Config.js";
 
 /**
  * Сцена «EPUB»: принимает .epub документ и пересылает его на email пользователя.

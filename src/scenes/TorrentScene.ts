@@ -8,9 +8,9 @@ import {getTorrentId} from '../utils/InfoHash.js';
 import path from 'node:path';
 import axios from 'axios';
 import * as fs from 'node:fs';
-import {cfg} from "../config/Config";
-import {throttle} from "../utils/Throttle";
-import {renderEmojiTable} from "../utils/EmojiDownloadTable";
+import {cfg} from "../config/Config.js";
+import {throttle} from "../utils/Throttle.js";
+import {renderEmojiTable} from "../utils/EmojiDownloadTable.js";
 
 /**
  * Сцена «TORRENT»: принимает .torrent.
