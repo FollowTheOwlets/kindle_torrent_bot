@@ -41,6 +41,9 @@ async function main() {
 
     logger.info('Bot started');
     const ex = express();
+    ex.get('/:path', (rq, rs) => {
+        rs.status(200).json({status: 'ok'})
+    })
     ex.listen(3000, () => logger.info('Express started'));
 
     await app.launch();
