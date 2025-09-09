@@ -40,7 +40,8 @@ async function main() {
     app.attachObservers();
 
     logger.info('Bot started');
-    express().listen(3000, () => logger.info('Express started'));
+    const ex = express();
+    ex.listen(3000, () => logger.info('Express started'));
 
     await app.launch();
     process.once('SIGINT', () => {
