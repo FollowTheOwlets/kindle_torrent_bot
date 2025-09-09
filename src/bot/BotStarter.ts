@@ -82,7 +82,9 @@ export class BotStarter {
      * @returns {Promise<void>}
      */
     async launch() {
-        await this.mail.verify().catch(() => this.logger.warn('SMTP verify failed (продолжим попытку при отправке)'));
+        await this.mail.verify().catch((e) => {
+            this.logger.error('SMTP verify failed (продолжим попытку при отправке)', e);
+        });
         await this.bot.launch();
     }
 
