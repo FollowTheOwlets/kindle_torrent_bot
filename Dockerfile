@@ -29,5 +29,12 @@ COPY --from=builder /app/dist ./dist
 # Работать как non-root (uid 1000 у node)
 USER node
 
+# ❗ Требуется платформой: объявляем порты
+# 3000 — если будете поднимать webhook HTTP-сервер (можно оставить даже при long polling, чтобы пройти валидацию)
+EXPOSE 3000
+# BitTorrent — входящие коннекты (ускоряет приём сидов)
+EXPOSE 6881/tcp
+EXPOSE 6881/udp
+
 # В long-polling порты не нужны. Для входящих BT соединений — см. docker-compose.
 CMD ["node", "dist/index.js"]
