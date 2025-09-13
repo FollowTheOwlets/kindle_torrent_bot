@@ -14,6 +14,7 @@ import SMTPTransport from "nodemailer/lib/smtp-transport";
  */
 export class MailService {
     private transporter: Transporter<SMTPTransport.SentMessageInfo, SMTPTransport.Options>;
+
     /**
      * @param {{host:string, port:number, secure:boolean, user:string, pass:string, from:string, maxEmailBytes:number, emailOverhead:number}} cfg Конфигурация SMTP и лимитов.
      */
@@ -27,10 +28,8 @@ export class MailService {
     this.transporter = nodemailer.createTransport({
             host: this.cfg.host,
             port: this.cfg.port,
-            secure: this.cfg.secure,           // 465 — true, 587 — false (STARTTLS)
+            secure: this.cfg.secure,
             auth: {user: this.cfg.user, pass: this.cfg.pass},
-            requireTLS: !this.cfg.secure,      // просим STARTTLS для 587
-            tls: {servername: this.cfg.host} // корректный SNI
         })
     }
 
