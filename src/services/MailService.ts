@@ -25,13 +25,6 @@ export class MailService {
             maxEmailBytes: number; emailOverhead: number;
         }
     ) {
-
-        console.log({
-            host: this.cfg.host,
-            port: this.cfg.port,
-            secure: this.cfg.secure,
-            auth: {user: this.cfg.user, pass: this.cfg.pass},
-        })
         this.transporter = nodemailer.createTransport({
             host: this.cfg.host,
             port: this.cfg.port,
